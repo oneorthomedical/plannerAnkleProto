@@ -1,0 +1,267 @@
+/* Layout */
+body {
+    zoom: 69%;
+}
+
+* {
+    box-sizing: border-box; /* pour maîtriser width et flex-basis */
+}
+
+html {
+    display: flex;
+    flex-direction: column; /* correction bug IE de min-height non appliqué à body */
+}
+
+body {
+    display: flex; /* crée un contexte flex pour ses enfants */
+    flex-direction: column; /* affichage vertical */
+    min-height: 100vh; /* toute la hauteur du viewport */
+    padding: 0px;
+}
+
+.wrapper {
+    flex: 1 1 auto; /* occupe la hauteur restante */
+    display: flex; /* crée un contexte flex pour ses enfants */
+    opacity: 0.05;
+
+}
+
+.directionViews {
+    left: 75%;
+    transform: translate(-75%, 0);
+}
+
+@-moz-document url-prefix() {
+    body {
+        -moz-transform: scale(0.69);
+        -moz-transform-origin: 0 0;
+        -o-transform: scale(0.69);
+        -o-transform-origin: 0 0;
+        -webkit-transform: scale(0.69);
+        -webkit-transform-origin: 0 0;
+        transform: scale(0.69);
+        transform-origin: 0 0;
+    }
+    #hauteurPatin {
+        /*  margin-left: -198px;
+          right: -38% !important;*/
+    }
+    #progressSpinner {
+        transform: translate(14%, -50%) !important;
+    }
+    .wrapper {
+        width: 145%
+    }
+    .directionViews {
+        left: 106%;
+       /* transform: translate(-125%, 0);*/
+    }
+    .directionsViewsRelative {
+
+    }
+    footer {
+        width: 145%;
+    }
+    .swal-overlay--show-modal {
+        width: 145% !important;
+    }
+    .dropdown-content select-dropdown {
+        left: 12% !important;
+        top: 61px !important;
+    }
+    .swal-modal {
+        transform: scale(1.3) !important;
+    }
+}
+
+configuration {
+    width: 23%;
+}
+
+outil {
+    width: 10%;;
+}
+
+/*outil {
+    width: 10%;
+}*/
+views {
+    width: 28%;
+}
+
+scene {
+    width: 39%; /* occupe la largeur restante */
+}
+
+configuration {
+    order: -1;
+}
+
+#faceView, #profilView {
+    width: 100%;
+    height: 630px;
+}
+
+.directionViews {
+    /* left: 70% !important;*/
+}
+
+@-moz-document url-prefix() {
+    .directionViews {
+        /*  left: 61% !important;*/
+    }
+}
+
+@media screen and (min-width: 1220px) and (max-width: 1350px) {
+    configuration {
+        width: 32%;
+    }
+
+    outil {
+        width: 15%;
+    }
+
+    /*outil {
+        width: 10%;
+    }*/
+    scene {
+        width: 33%; /* occupe la largeur restante */
+    }
+
+    views {
+        width: 20%
+    }
+
+    .directionViews {
+        /*  left: 70% !important;*/
+    }
+
+    @-moz-document url-prefix() {
+        .directionViews {
+            /*
+            left: 61% !important;
+            */
+        }
+    }
+}
+
+@media (max-width: 1220px) {
+    .wrapper {
+        flex-direction: column; /* affichage vertical */
+    }
+
+    configuration, outil, scene, views {
+        width: auto; /* pour écraser la valeur 10em */
+    }
+
+    scene,
+    configuration, outil, views {
+        flex-basis: auto; /* pour écraser la valeur 0, due au flex: 1 */
+    }
+
+    configuration {
+        order: 0;
+    }
+
+    .directionViews {
+        /*   left: 47% !important;*/
+    }
+}
+
+/* Decoration */
+
+body {
+    margin: 0;
+    background: #ecf0f5;
+    font-family: arial, sans-serif;
+}
+
+header,
+scene,
+configuration,
+footer,
+outil, views {
+    margin: 0.2em;
+    padding: 0em;
+    border-radius: 0;
+}
+
+header, scene, configuration, footer, outil, views {
+    background: #e6e6e6;
+}
+
+#view3D {
+    width: 100%;
+    height: 1260px;
+}
+
+footer {
+    display: flex;
+}
+
+h6 {
+    color: black;
+    font-weight: bold;
+    margin-top: -10px;
+    margin-bottom: -29px;
+    font-size: 19px !important;
+}
+
+.filterable .filters input[disabled]::-webkit-input-placeholder {
+    color: #333;
+}
+
+.filterable .filters input[disabled]::-moz-placeholder {
+    color: #333;
+}
+
+.filterable .filters input[disabled]:-ms-input-placeholder {
+    color: #333;
+}
+
+table {
+    background-color: #ecf0f5;
+}
+
+.configuration-button {
+    margin-bottom: 4px;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.progress {
+    /*position: absolute;
+    z-index: 60;
+    background-color: #acece6;
+    height: 50px;
+   !* bottom: 50%;*!*/
+}
+
+.ui-slider-pips .ui-slider-pip {
+    font-size: 1.1em !important;
+}
+
+.select-wrapper input.select-dropdown {
+    font-size: 19px !important;
+    font-weight: bold;
+    text-align: center;
+
+}
+
+.pageTalaire {
+
+}
+
+.pageTibia {
+
+}
+
+.configTibia {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.info {
+    font-size: 1.2em;
+    font-weight: bold;
+}

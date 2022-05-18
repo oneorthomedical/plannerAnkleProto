@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/img/favicon-32x32.ico" sizes="32x32">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="assets/css/materialize.css  " media="screen,projection"/>
+    <link rel="stylesheet" href="assets/css/jquery-ui.min.css  ">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="assets/css/style.css  ">
+    <link rel="stylesheet" href="assets/css/custom.css  ">
+    <link rel="stylesheet" href="assets/css/jquery-ui-slider.css"
+          media="screen,projection"/>
+    <title>Planification</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<body>
+<div id="progressSpinner" class="center-align">
+    <svg id="animatedTalus" viewbox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" fill="#ff7000 "/>
+        <path id="progressTalus" stroke-linecap="round" stroke-width="5" stroke="#fff" fill="none"
+              d="M50 10 a 40 40 0 0 1 0 80 a 40 40 0 0 1 0 -80">
+        </path>
+        <text x="25" y="30" dy="7" font-size="7"> Processing Talus</text>
+        <text id="countTalus" x="50" y="55" text-anchor="middle" dy="7" font-size="20">0%</text>
+    </svg>
+    <svg id="animatedFibula" viewbox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" fill="#ff7000 "/>
+        <path id="progressFibbula" stroke-linecap="round" stroke-width="5" stroke="#fff" fill="none"
+              d="M50 10 a 40 40 0 0 1 0 80 a 40 40 0 0 1 0 -80">
+        </path>
+        <text x="23" y="30" dy="7" font-size="7"> Processing Fibula</text>
+        <text id="countFibula" x="50" y="55" text-anchor="middle" dy="7" font-size="20">0%</text>
+    </svg>
+    <svg id="animatedTibia" viewbox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" fill="#ff7000 "/>
+        <path id="progressTibia" stroke-linecap="round" stroke-width="5" stroke="#fff" fill="none"
+              d="M50 10 a 40 40 0 0 1 0 80 a 40 40 0 0 1 0 -80">
+        </path>
+        <text x="23" y="30" dy="7" font-size="7"> Processing Tibia</text>
+        <text id="countTibia" x="50" y="55" text-anchor="middle" dy="7" font-size="20">0%</text>
+    </svg>
+</div>
+<div class="wrapper">
+    <views>
+        <faceView>
+            <canvas id="radioFaceView" style="display: none;"></canvas>
+            <canvas id="faceView"></canvas>
+        </faceView>
+        <profilView>
+            <canvas id="radioProfilView" style="display: none"></canvas>
+            <canvas id="profilView"></canvas>
+        </profilView>
+    </views>
+    <scene id="offset">
+        <div class="directionViews">
+            <div class="directionsViewsRelative" style="position: relative ; top: 15px;">
+                <div>
+                    <a id="frontalView"
+                       class="waves-effect waves-light btn-large orange accent-4"> Anterior/Posterior</a>
+                    <a id='sagittalView'
+                       class="waves-effect waves-light btn-large orange accent-4"> Lateral/Medial</a>
+                    <a id="transversalView"
+                       class="waves-effect waves-light btn-large orange accent-4"> Superior/Inferior</a>
+                </div>
+            </div>
+            <div style="position: relative; top: 25px;">
+                <a id="hauteurPatin" class="waves-effect waves-light btn-large green"> <i id="warningPatin"
+                                                                                          class="medium material-icons"
+                                                                                          style="display: none ; ">warning</i>Bearing
+                    thickness
+                    <span id="labelPatin">5 mm </span> <span id="notAvailable"
+                                                             style="display: none">   not available in the range   </span></a>
+            </div>
+        </div>
+        <canvas id="view3D">
+        </canvas>
+    </scene>
+    <configuration>
+        <ul class="collapsible">
+            <li>
+                <div class="collapsible-header"><i class="material-icons">person</i><span
+                        class="info">   Patient Information   </span></div>
+                <div class="collapsible-body">
+                    <div class="col s12" style="padding: 1.5rem">
+                        <div>
+                            <h4 style="color: black; font-weight: bold">
+                                Name : <span id="namePatient" style="float: right"></span>
+                            </h4>
+                        </div>
+                        <div>
+                            <h4 style="color: black; font-weight: bold">
+                                Case Date : <span id="interventionDate"
+                                                  style="float: right"></span>
+                            </h4>
+                        </div>
+                        <div>
+                            <h4 style="color: black; font-weight: bold">
+                                Operative Side : <span id="interventionSide"
+                                                       style="float: right"></span>
+                            </h4>
+                        </div>
+                        <div>
+                            <h4 style="color: black ; font-weight: bold">
+                                PP2IB : <span id="interventionNumber" style="float: right"></span>
+                            </h4>
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+            <li id="collapsibleTibia">
+                <div class="collapsible-header"><i class="material-icons"><img class="imageIcone"
+                                                                               src="    assets/img/icone-position.png  "
+                                                                               alt=""></i><span
+                        class="info">   Implant Positioning   </span></div>
+                <div id="bodyConfigTibia" class="collapsible-body">
+                    <div class="col s12" style="padding: 1.5rem">
+                        <h6 class="center-align active"> Translation (mm)</h6>
+                        <br>
+                        <hr>
+                        <p>
+                        <h6 class="center-align"> Tibial Resection </h6>
+                        <a id="removeHauteurTi"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left"></a>
+                        <a id="addHauteurTi"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="hauteurTi"></div>
+                        </p>
+                        <br>
+                        <p>
+                        <h6 class="center-align"> Talar Resection </h6>
+                        <a id="removeHauteurTa"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left "></a>
+                        <a id="addHauteurTa"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="hauteurTa"></div>
+                        </p>
+                        <br>
+                        <p>
+                        <h6 class="center-align"> Medial/Lateral Shift </h6>
+                        <a id="removeDistanceMRTi"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left"></a>
+                        <a id="addDistanceMRTi"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="distanceMRTi"></div>
+                        </p>
+                        <br>
+                        <p>
+                        <h6 class="center-align"> Anterior/Posterior Shift </h6>
+                        <a id="removeDeplacementAPTi"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left"></a>
+                        <a id="addDeplacementAPTi"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="deplacementAPTi"></div>
+                        </p>
+                        <br><br>
+                        <h6 class="center-align active"> Rotation (°)</h6>
+                        <br>
+                        <hr>
+                        <p>
+                        <h6 class="center-align"> Alignment </h6>
+                        <a id="removeVarusValgusTi"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left"></a>
+                        <a id="addVarusValgusTi"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="varusValgusTi"></div>
+                        </p>
+                        <br>
+                        <p>
+                        <h6 class="center-align"> Sagittal Tilt </h6>
+                        <a id='removeAngleSagittalTi'
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left "></a>
+                        <a id='addAngleSagittalTi'
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset   btn-right "
+                           style="float: right"></a>
+                        <div class="angleSagittalTi"></div>
+                        </p>
+                        <br>
+                        <p>
+                        <h6 class="center-align"> Axial Rotation </h6>
+                        <a id="removeAngleMMTi"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left "></a>
+                        <a id="addAngleMMTi"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="angleMMTi"></div>
+                        </p>
+                        <br><br>
+                        <h6 class="center-align active"> Tibial Component </h6>
+                        <br>
+                        <hr>
+                        <p>
+                        <h6 class="center-align"> Size </h6>
+                        <a id="removeTailleTibiaTi"
+                           class="btn btn-medium waves-effect waves-light grey darken-3 configuration-button hvr-box-shadow-inset btn-left "><i
+                                class="material-icons">remove</i></a>
+                        <a id="addTailleTibiaTi"
+                           class="btn btn-medium waves-effect waves-light grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"><i class="material-icons">add</i></a>
+                        <div class="tailleTibiaTi"></div>
+                        </p>
+                        <br><br>
+                        <h6 class="center-align active"> Talar Component </h6>
+                        <br>
+                        <hr>
+                        <div class="input-field">
+                            <select id="typeImplantTa">
+                                <option value="" disabled selected> Type of implant</option>
+                                <option value="1"> Standard</option>
+                                <option value="2"> Flat cut with peg</option>
+                                <option value="3" disabled> Flat cut with keel</option>
+                            </select>
+                        </div>
+                        <br>
+                        <h6 class="center-align"> Size </h6>
+                        <a id="removeTailleTa"
+                           class="btn btn-medium waves-effect waves-light grey darken-3 configuration-button hvr-box-shadow-inset btn-left "><i
+                                class="material-icons">remove</i></a>
+                        <a id="addTailleTa"
+                           class="btn btn-medium waves-effect waves-light grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"><i class="material-icons">add</i></a>
+                        <div class="tailleTa"></div>
+                    </div>
+                    <span style="display: none">
+                        <p class="center-align">
+                            <a class="waves-effect waves-light btn amber darken-4"><i class="material-icons right">cached</i>   Back to preplanification   </a>
+                        </p>
+                    </span>
+                </div>
+            </li>
+            <li id="collapsibleTalaire">
+                <div class="collapsible-header"><i class="material-icons"><img class="imageIcone"
+                                                                               src="    assets/img/icone-talaire.png  "
+                                                                               alt=""></i><span
+                        class="info">   Bone Positioning   </span></div>
+                <div id="bodyConfigTalaire" class="collapsible-body">
+                    <div class="col s12" style="padding: 1.5rem">
+                        <h6 class="center-align active"> Talar Translation (mm)</h6>
+                        <br>
+                        <hr>
+                        <p>
+                        <h6 class="center-align"> Talus/Tibia </h6>
+                        <a id="removeEpaisseur"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left "></a>
+                        <a id="addEpaisseur"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="epaisseur"></div>
+                        </p>
+                        <br>
+                        <p>
+                        <h6 class="center-align"> Anterior-Posterior Shift </h6>
+                        <a id="removePositionAPTa"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left "></a>
+                        <a id="addPositionAPTa"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="positionAPTa"></div>
+                        </p>
+                        <br>
+                        <p>
+                        <h6 class="center-align"> Medial-Lateral Shift </h6>
+                        <a id="removePositionMLTa"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left  "></a>
+                        <a id="addPositionMLTa"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="positionMLTa"></div>
+                        </p>
+                        <br><br>
+                        <h6 class="center-align active"> Talar Rotation (°)</h6>
+                        <br>
+                        <hr>
+                        <p>
+                            <h6 class="center-align"> Varus/Valgus Orientation </h6>
+                        <a id="removeVarusValgusTa"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left "></a>
+                        <a id="addVarusValgusTa"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="varusValgusTa"></div>
+                        </p>
+                        <br>
+                        <p>
+                            <h6 class="center-align"> Internal / External </h6>
+                        <a id='removeAnglePHTa'
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left "></a>
+                        <a id='addAnglePHTa'
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="anglePHTa"></div>
+                        </p>
+                        <br>
+                        <p>
+                            <h6 class="center-align"> Plantar/Dorsi Flexion </h6>
+                        <a id="removeAnglePSTa"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-left "></a>
+                        <a id="addAnglePSTa"
+                           class="btn grey darken-3 configuration-button hvr-box-shadow-inset btn-right"
+                           style="float: right"></a>
+                        <div class="anglePSTa"></div>
+                        </p>
+                        <br><br>
+                    </div>
+                    <span style="display: none;">
+                        <p class="center-align">
+                            <a class="waves-effect waves-light btn amber darken-4"><i class="material-icons right">cached</i>   Back to preplanification   </a>
+                        </p>
+                    </span>
+                </div>
+            </li>
+        </ul>
+    </configuration>
+    <outil>
+        <ul id="outil" class="collapsible">
+            <li class="active">
+                <div class="collapsible-header"><i class="material-icons">settings</i><span
+                        class="info">   Visualization Tools   </span></div>
+                <div class="collapsible-body collapsible-body-outil" style=" padding: 1.5rem; padding-top: 0px">
+                    <span>
+                            <h5 class="toolTitle">   Bones   </h5>
+                        <p>
+                            <label>
+                              <input name="tibiaBrut" type="checkbox" class="filled-in" checked="checked"/>
+                              <span>Tibia</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                              <input name="talusBrut" type="checkbox" class="filled-in" checked="checked"/>
+                              <span>   Talus + Calcaneus   </span>
+                            </label>
+                         </p>
+                         <p>
+                            <label>
+                              <input name="perone" type="checkbox" class="filled-in" checked="checked"/>
+                              <span>   Fibula   </span>
+                            </label>
+                        </p>
+                        <hr>
+                         <h5 class="toolTitle">   Resections   </h5>
+                        <p>
+                            <label>
+                              <input name='tibia' type="checkbox" class="filled-in"/>
+                                <span>Tibia</span>
+                            </label>
+                        </p>
+                         <p>
+                            <label>
+                              <input name="talaire" type="checkbox" class="filled-in"/>
+                              <span>   Talus + Calcaneus   </span>
+                            </label>
+                         </p>
+                        <hr>
+                         <h5 class="toolTitle">   Implants   </h5>
+                        <p>
+                            <label>
+                              <input name="implantTibia" type="checkbox" class="filled-in"/>
+                              <span>   Tibia   </span>
+                            </label>
+                        </p>
+                         <p>
+                            <label>
+                              <input name="implantTalaire" type="checkbox" class="filled-in"/>
+                              <span>   Talus   </span>
+                            </label>
+                        </p>
+                        <hr>
+                         <h5 class="toolTitle">   Image Options   </h5>
+                         <p>
+                            <label>
+                              <input name="cylindre" type="checkbox" class="filled-in"/>
+                              <span>   Malleolar Distance   </span>
+                            </label>
+                                <h5 class="center-align"><span
+                                        style="color: green ; font-weight: bold">   Green    : 11mm</span></h5>
+                                <h5 class="center-align"><span
+                                        style="color: orangered; font-weight: bold">   Orange    : 9mm</span></h5>
+                                <h5 class="center-align"><span
+                                        style="color: red; font-weight: bold">   Red    : 7mm</span></h5>
+                        </p>
+                        <p>
+                            <label>
+                              <input name="wireframe" type="checkbox" class="filled-in"/>
+                              <span>   Mesh Rendering   </span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                              <input name="transparence" type="checkbox" class="filled-in"/>
+                              <span>   Transparency   </span>
+                            </label>
+                        </p>
+                          <p>
+                            <label>
+                              <input name="radio" type="checkbox" class="filled-in"/>
+                              <span>   X-Ray   </span>
+                            </label>
+                        </p>
+                         <p>
+                            <label>
+                              <input name="axe" type="checkbox" class="filled-in"/>
+                              <span>   Mechanical Axis   </span>
+                            </label>
+                        </p>
+                        </p>
+                        <p id="fullScreen">
+                            <label>
+                              <input name="fullScreen" type="checkbox" class="filled-in"/>
+                              <span>   Full screen   </span>
+                            </label>
+                        </p>
+                         <p>
+                            <label style="display: none">
+                              <input name="plan" type="checkbox" class="filled-in"/>
+                              <span>Plan</span>
+                            </label>
+                        </p>
+                        <hr>
+                         <h5 class="toolTitle ">
+                             <div class="tooltip">
+                                 <i class="large material-icons" style="cursor: pointer">
+                                         <a href="    object/MU-Planificateur-In2Bones.pdf "
+                                            download>assignment</a>
+                                 </i>
+                                   <span class="tooltiptext">   User manual    </span>
+                            </div>
+                         </h5>
+                    </span>
+                </div>
+            </li>
+        </ul>
+    </outil>
+</div> <!-- /wrapper -->
+<footer>
+    <div class="row">
+        <p class="center-align">
+            <a id="previous" class="waves-effect waves-light btn-large grey darken-3 pageInsert hideAdmin"><i
+                    class="material-icons left">undo</i> Previous </a>
+            <a id="previousToPreplanif" class="waves-effect waves-light btn-large grey darken-3 pageTibia hideAdmin"><i
+                    class="material-icons left">settings_backup_restore</i> Back to Preplanification
+            </a>
+            <a id='saveTemporary' class="waves-effect waves-light btn-large grey darken-3 pageTibia hideAdmin"><i
+                    class="material-icons left">access_time</i> Save for Later </a>
+        </p>
+        <p class="center-align">
+            <a id="previousWorkflow" class="waves-effect waves-light btn-large red "> Cancel </a>
+            <a id="exportStl" class="waves-effect waves-light btn-large orange hideSurgeon">Export stl</a>
+            <a id="save" class="waves-effect waves-light btn-large grey darken-3 pageTibia hideAdmin"><i
+                    class="material-icons right">send</i> Final Validation </a>
+        </p>
+    </div>
+</footer>
+</body>
+<script>
+    //console.log(sessionStorage.getItem('JSonResponse'));
+</script>
+
+<script type="text/javascript" src="assets/js/build/materialize.min.js  "></script>
+<script type="text/javascript" src="assets/js/build/snap.svg.min.js  "></script>
+<script type="text/javascript" src="assets/js/build/jquery-ui.min.js  "></script>
+<script type="text/javascript" src="assets/js/build/jquery-ui-slider.js  "></script>
+<script type="text/javascript" src="assets/js/build/three.min.js  "></script>
+<script type="text/javascript" src="assets/js/build/TrackballControls.js  "></script>
+<script type="text/javascript" src="assets/js/build/OBJLoader.js  "></script>
+<script type="text/javascript" src="assets/js/build/STLBinaryExporter.js  "></script>
+<script type="text/javascript" src="assets/js/build/CombinedCamera.js  "></script>
+<script type="module" src="    dist/planification.js  "></script>
+
+</html>
