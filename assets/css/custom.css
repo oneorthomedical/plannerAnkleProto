@@ -288,10 +288,12 @@ body>footer>div>p:nth-child(2)>a {
     font-size: 22px !important;
     border-radius: 5px !important;
 }
-
+.directionViews{
+    left: 61%!important;
+}
 @media only screen and (max-width: 600px) {
     .directionViews {
-        left: 70% !important;
+        left: 72% !important;
     }
 
     body>footer>div {
@@ -318,19 +320,42 @@ body>footer>div>p:nth-child(2)>a {
 }
 @media screen and (min-width: 1220px) and (max-width: 1350px) {
     .directionViews {
-          left: 77% !important;
+          left: 73% !important;
+    }
+}
+@media screen and (min-width: 1167px) and (max-width: 1220px) {
+    .directionViews {
+          left: 57% !important;
+    }
+}
+@media screen and (min-width: 1024px) and (max-width: 1167px) {
+    .directionViews {
+          left: 58% !important;
     }
 }
  @-moz-document url-prefix() {
-     @media only screen and (max-width: 600px) {
-        .directionViews {
-            left: 102% !important;
-        }
-    }
     @media only screen and (max-width: 1200px) {
         .directionViews {
-            left: 88% !important;
+            left: 60% !important;
         }
     }
+     @media only screen and (max-width: 600px) {
+        .directionViews {
+            left: 71% !important;
+        }
+    }
+    @media only screen and (max-width: 400px) {
+        .directionViews {
+            left: 72.5% !important;
+        }
+    }
+    @media only screen and (max-width: 360px) {
+        .directionViews {
+            left: 74% !important;
+        }
+    }
+
+    
+    
 
 }

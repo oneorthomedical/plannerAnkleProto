@@ -56,9 +56,9 @@
                <canvas id="profilView"></canvas>
             </profilView>
          </views>
-         <scene id="offset">
-            <div class="directionViews">
-               <div class="directionsViewsRelative" style="position: relative ; top: 15px;">
+         <scene id="offset" style="position: relative;">
+            <div class="directionViews" style="position: absolute;">
+               <div class="directionsViewsRelative">
                   <div>
                      <a id="frontalView"
                         class="waves-effect waves-light btn-large orange accent-4"> Anterior/Posterior</a>
@@ -68,8 +68,8 @@
                         class="waves-effect waves-light btn-large orange accent-4"> Superior/Inferior</a>
                   </div>
                </div>
-               <div style="position: relative; top: 25px;">
-                  <a id="hauteurPatin" class="waves-effect waves-light btn-large green"> <i id="warningPatin"
+               <div style="margin-top: 20px;">
+                  <a id="hauteurPatin" class="waves-effect waves-light btn-large green" style="width: 100%;"> <i id="warningPatin"
                      class="medium material-icons"
                      style="display: none ; ">warning</i>Bearing
                   thickness
