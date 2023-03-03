@@ -47,7 +47,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
-    "melanke-watchjs": "^1.4.3",
+    "melanke-watchjs": "^1.5.2",
     "mocha": "^5.2.0",
     "noty": "^3.2.0-beta",
     "rsvp": "^4.8.2",
