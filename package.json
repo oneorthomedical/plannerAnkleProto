@@ -52,7 +52,7 @@
     "noty": "^3.2.0-beta",
     "rsvp": "^4.8.2",
     "sweetalert": "^2.1.0",
-    "three": "^0.92.0",
+    "three": "^0.149.0",
     "three.meshline": "^1.1.0"
   }
 }
