@@ -50,7 +50,7 @@
     "melanke-watchjs": "^1.4.3",
     "mocha": "^5.2.0",
     "noty": "^3.2.0-beta",
-    "rsvp": "^4.8.2",
+    "rsvp": "^4.8.5",
     "sweetalert": "^2.1.0",
     "three": "^0.92.0",
     "three.meshline": "^1.1.0"
