@@ -24,7 +24,9 @@
     "testMortaiseTibia": "mocha test/test.mortaiseTibia.js",
     "testMortaiseTalus": "mocha test/test.mortaiseTalus.js",
     "testImplantTibia": "mocha test/test.implantTibia.js",
-    "testImplantTalus": "mocha test/test.implantTalus.js"
+    "testImplantTalus": "mocha test/test.implantTalus.js",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "author": "",
   "license": "ISC",
@@ -53,6 +55,8 @@
     "rsvp": "^4.8.2",
     "sweetalert": "^2.1.0",
     "three": "^0.92.0",
-    "three.meshline": "^1.1.0"
-  }
+    "three.meshline": "^1.1.0",
+    "@snyk/protect": "latest"
+  },
+  "snyk": true
 }
